@@ -6,6 +6,12 @@ module.exports = {
     imgUrl : '', //分享图标
     type : '', //分享类型,music、video或link，不填默认为link
     dataUrl : '', ////如果type是music或video，则要提供数据链接，默认为空
+    success : function () {
+                //alert('用户确认分享后执行的回调函数');
+            }, 
+    cancel: function () {
+                //alert('用户取消分享后执行的回调函数');
+            },
 
     data: '',
     QQData: '',
@@ -21,20 +27,24 @@ module.exports = {
             imgUrl: self.imgUrl,
             type: self.type, // 分享类型,music、video或link，不填默认为link
             dataUrl: self.dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () {
-                //alert('用户确认分享后执行的回调函数');
-            },
-            cancel: function () {
-                //alert('用户取消分享后执行的回调函数');
-            }
+            success: self.success,
+            cancel: self.cancel
         };
+
         //深度克隆
         self.QQData = JSON.stringify(self.data);
         self.QQData = JSON.parse(self.QQData);
         self.TimeLineData = JSON.stringify(self.data);
         self.TimeLineData = JSON.parse(self.TimeLineData);  
         self.WeiBoData = JSON.stringify(self.data);
-        self.WeiBoData = JSON.parse(self.WeiBoData);       
+        self.WeiBoData = JSON.parse(self.WeiBoData);    
+        //反序列化
+        self.QQData.success = self.success;
+        self.TimeLineData.success = self.success;
+        self.WeiBoData.success = self.success;
+        self.QQData.cancel = self.cancel;
+        self.TimeLineData.cancel = self.cancel;
+        self.WeiBoData.cancel = self.cancel;
     },
 
     start : function(){
